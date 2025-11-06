@@ -1,0 +1,2 @@
+# royxat
+Royxatdan otish formulasi
