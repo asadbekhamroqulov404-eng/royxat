@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAT Marathon Ro‘yxatdan o‘tish</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", "Poppins", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #1e2a78, #3a4bb5);
+      background-size: cover;
+      padding: 16px;
+    }
+
+    .form-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 360px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-header {
+      background: #12194d;
+      color: #fff;
+      text-align: center;
+      padding: 24px 10px;
+      font-size: 20px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .form-header::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 15px;
+      border-style: solid;
+      border-color: #12194d transparent transparent transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      padding: 28px 24px 20px;
+      gap: 16px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    input:focus {
+      border-color: #3a4bb5;
+      box-shadow: 0 0 6px rgba(58, 75, 181, 0.3);
+    }
+
+    button {
+      background: #3a4bb5;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #2b3990;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      padding-bottom: 18px;
+    }
+
+    @media (max-width: 420px) {
+      .form-box {
+        max-width: 95%;
+      }
+      .form-header {
+        font-size: 18px;
+        padding: 20px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <div class="form-header">SAT MARATHON</div>
+
+    <form id="regForm" action="https://formspree.io/f/mqagrlda" method="POST">
+      <div>
+        <label for="name">Ism familiyangiz</label>
+        <input type="text" id="name" name="name" placeholder="Ismingizni kiriting" required>
+      </div>
+
+      <div>
+        <label for="phone">Telefon raqamingiz</label>
+        <input type="tel" id="phone" name="phone" placeholder="+998 (__) ___-__-__" required>
+      </div>
+
+      <button type="submit">Yuborish</button>
+    </form>
+
+    <div class="footer">H.A.H tomoidan qo'llab quvatlanadi</div>
+  </div>
+
+  <script>
+    // Telefon raqam uchun mask
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', (e) => {
+      let x = e.target.value.replace(/\D/g, '').substring(0, 12);
+      let formatted = '+998 ';
+      if (x.length > 2) formatted += '(' + x.substring(2, 4);
+      if (x.length >= 4) formatted += ') ' + x.substring(4, 7);
+      if (x.length >= 7) formatted += '-' + x.substring(7, 9);
+      if (x.length >= 9) formatted += '-' + x.substring(9, 11);
+      e.target.value = formatted;
+    });
+
+    // Forma yuborilganda xabar
+    const form = document.getElementById("regForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (response.ok) {
+        form.innerHTML = "<h3 style='text-align:center; color:#1e2a78;'>Rahmat! Ro‘yxatdan o‘tdingiz ✅</h3>";
+      } else {
+        alert("Xatolik yuz berdi, qayta urinib ko‘ring.");
+      }
+    });
+  </script>
+</body>
+</html>
